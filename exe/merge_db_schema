@@ -1,0 +1,42 @@
+#!ruby
+
+require 'pathname'
+
+def re_define_str
+  '^ActiveRecord::Schema.define\\(version:\\s(\\d+)\\)\\sdo$'
+end
+
+RE_DEFINE = Regexp.new(re_define_str)
+
+RE_VERSION = /
+  ^\<{7,}\s.+$\n
+  #{re_define_str}\n
+  ^={7,}$\n
+  #{re_define_str}\n
+  ^\>{7,}\s.+$
+/x
+
+RE_EQ = /^={7,}$/
+
+# merge_db_schema %O %A %B
+def main(argv)
+  original = argv[0]
+  current = argv[1]
+  other = argv[2]
+
+  diffed = `git merge-file -pq #{current} #{original} #{other}`
+  return 1 if diffed.scan(RE_EQ).size != 1
+  match = diffed.match(RE_VERSION)
+  return 1 unless match
+
+  version1 = match[1].to_i
+  version2 = match[2].to_i
+  version = [version1, version2].max
+  
+  current_text = Pathname(current).read
+  current_text[RE_DEFINE, 1] = version.to_s
+  Pathname(current).write(current_text)
+  return 0
+end
+
+exit main(ARGV)
