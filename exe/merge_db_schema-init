@@ -1,0 +1,32 @@
+#!ruby
+
+require 'rainbow'
+
+force = ARGV[0] == '--force'
+
+gitattributes = "db/schema.rb merge=merge_db_schema\n"
+gitconfig = <<-END
+[merge "merge_db_schema"]
+\tname = Merge db/schema.rb
+\tdriver = merge_db_schema %O %A %B
+\trecursive = text
+END
+
+print 'Initializing .gitattributes ... '
+File.open('.gitattributes', 'a') do |f|
+  f.write(gitattributes)
+end
+puts Rainbow('done!').green
+
+if force
+  print 'Initializing .git/config ... '
+  File.open('.git/config', 'a') do |f|
+    f.write(gitconfig)
+  end
+  puts Rainbow('done!').green
+  puts Rainbow('Successfully initialized!')
+else
+  puts 'Add the following code into .git/config, initializing is completed!'
+  puts
+  puts gitconfig
+end
