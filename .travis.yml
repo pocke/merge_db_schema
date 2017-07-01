@@ -1,0 +1,14 @@
+sudo: false
+cache: bundler
+rvm:
+  - 2.3.4
+  - 2.4.1
+  - ruby-head
+branches:
+  only:
+    - master
+before_script:
+  - git config --global user.email "test@example.com"
+  - git config --global user.name "test user"
+script:
+  - bundle exec rake
