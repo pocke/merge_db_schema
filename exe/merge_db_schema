@@ -2,4 +2,4 @@
 
 require 'merge_db_schema'
 
-exit MergeDbSchema.main(ARGV)
+exit MergeDBSchema.main(ARGV)

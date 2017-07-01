@@ -5,7 +5,7 @@ require "merge_db_schema/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "merge_db_schema"
-  spec.version       = MergeDbSchema::VERSION
+  spec.version       = MergeDBSchema::VERSION
   spec.authors       = ["Masataka Kuwabara"]
   spec.email         = ["kuwabara@pocke.me"]
 

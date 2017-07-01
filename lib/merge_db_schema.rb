@@ -2,7 +2,7 @@ require 'pathname'
 require 'rainbow'
 require "merge_db_schema/version"
 
-module MergeDbSchema
+module MergeDBSchema
   class << self
     RE_DEFINE = /^ActiveRecord::Schema.define\(version:\s(\d+)\)\sdo$/
 

@@ -9,7 +9,7 @@ class TestMain < Minitest::Test
       data_current = DataDir / 'simple/patched1.rb'
       copy(DataDir / 'simple', dir)
 
-      status = MergeDbSchema.main([original.to_s, current.to_s, other.to_s])
+      status = MergeDBSchema.main([original.to_s, current.to_s, other.to_s])
 
       assert status == 0
       assert_merged(current, data_current, DataDir.join('simple/expected.rb'))
@@ -24,7 +24,7 @@ class TestMain < Minitest::Test
       data_current = DataDir / 'simple/patched2.rb'
       copy(DataDir / 'simple', dir)
 
-      status = MergeDbSchema.main([original.to_s, current.to_s, other.to_s])
+      status = MergeDBSchema.main([original.to_s, current.to_s, other.to_s])
 
       assert status == 0
       assert_merged(current, data_current, DataDir.join('simple/expected.rb'))
@@ -39,7 +39,7 @@ class TestMain < Minitest::Test
       data_current = DataDir / 'conflict/patched1.rb'
       copy(DataDir / 'conflict', dir)
 
-      status = MergeDbSchema.main([original.to_s, current.to_s, other.to_s])
+      status = MergeDBSchema.main([original.to_s, current.to_s, other.to_s])
 
       assert status == 1
       assert_conflict(current, data_current, DataDir.join('conflict/expected.rb'))
@@ -54,7 +54,7 @@ class TestMain < Minitest::Test
       data_current = DataDir / 'conflict/patched2.rb'
       copy(DataDir / 'conflict', dir)
 
-      status = MergeDbSchema.main([original.to_s, current.to_s, other.to_s])
+      status = MergeDBSchema.main([original.to_s, current.to_s, other.to_s])
 
       assert status == 1
       assert_conflict(current, data_current, DataDir.join('conflict/expected.rb'))
