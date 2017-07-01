@@ -13,10 +13,12 @@ def mktmpdir(&block)
   end
 end
 
+class CommandExecutionError < StandardError; end
+
 def sh!(*commands)
   puts commands.join(' ')
   system(*commands)
-  raise "command execution is failed. status: #{$?.exitstatus}" unless $?.success?
+  raise CommandExecutionError, "command execution is failed. status: #{$?.exitstatus}" unless $?.success?
 end
 
 DataDir = Pathname(__dir__) / 'data'
