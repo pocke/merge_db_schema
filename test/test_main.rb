@@ -16,9 +16,8 @@ class TestMain < Minitest::Test
       status = MergeDbSchema.main([original.to_s, current.to_s, other.to_s])
 
       assert status == 0
-      assert original.read == data_original.read
-      assert other.read == data_other.read
       assert current.read != data_current.read
+      assert_equal current.read, DataDir.join('simple/expected.rb').read
 
       assert !data_current.read.match(/version: 20170628094212/)
       assert current.read.match(/version: 20170628094212/)
@@ -43,9 +42,8 @@ class TestMain < Minitest::Test
       status = MergeDbSchema.main([original.to_s, current.to_s, other.to_s])
 
       assert status == 0
-      assert original.read == data_original.read
-      assert other.read == data_other.read
-      assert current.read == data_current.read
+      assert current.read != data_current.read
+      assert_equal current.read, DataDir.join('simple/expected.rb').read
 
       assert current.read.match(/version: 20170628094212/)
       assert !current.read.match(/\={7,}/)

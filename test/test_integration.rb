@@ -11,6 +11,7 @@ class TestMain < Minitest::Test
     }
 
     mktmpdir do |dir|
+      db_schema = dir.join('db/schema.rb')
       Dir.chdir(dir) do
         # Initialize the directory
         sh! 'git', 'init'
@@ -20,23 +21,27 @@ class TestMain < Minitest::Test
         commit('Initialise merge_db_schema')
 
         dir.join('db').mkdir
-        FileUtils.cp(DataDir.join('simple/original.rb'), dir.join('db/schema.rb'))
+        FileUtils.cp(DataDir.join('simple/original.rb'), db_schema)
         commit('Add db/schema.rb')
 
         sh! 'git', 'checkout', '-b', 'change1'
-        FileUtils.cp(DataDir.join('simple/patched1.rb'), dir.join('db/schema.rb'))
+        FileUtils.cp(DataDir.join('simple/patched1.rb'), db_schema)
         commit('Update db/schema.rb on change1 branch')
 
         sh! 'git', 'checkout', 'master'
         sh! 'git', 'checkout', '-b', 'change2'
-        FileUtils.cp(DataDir.join('simple/patched2.rb'), dir.join('db/schema.rb'))
+        FileUtils.cp(DataDir.join('simple/patched2.rb'), db_schema)
         commit('Update db/schema.rb on change2 branch')
 
         sh! 'git', 'branch', 'change2-original'
+        assert db_schema.read != DataDir.join('simple/expected.rb').read
         sh! 'git', 'merge', '--no-edit', 'change1'
+        assert_equal db_schema.read, DataDir.join('simple/expected.rb').read
 
         sh! 'git', 'checkout', 'change1'
+        assert db_schema.read != DataDir.join('simple/expected.rb').read
         sh! 'git', 'merge', '--no-edit', 'change2-original'
+        assert_equal db_schema.read, DataDir.join('simple/expected.rb').read
       end
     end
   ensure

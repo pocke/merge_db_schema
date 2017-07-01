@@ -4,38 +4,29 @@ require "merge_db_schema/version"
 
 module MergeDbSchema
   class << self
-    RE_DEFINE_STR = '^ActiveRecord::Schema.define\\(version:\\s(\\d+)\\)\\sdo$'
-    RE_DEFINE = Regexp.new(RE_DEFINE_STR)
-    RE_VERSION = /
-      ^\<{7,}\s.+$\n
-      #{RE_DEFINE_STR}\n
-      ^={7,}$\n
-      #{RE_DEFINE_STR}\n
-      ^\>{7,}\s.+$
-    /x
-    RE_EQ = /^={7,}$/
+    RE_DEFINE = /^ActiveRecord::Schema.define\(version:\s(\d+)\)\sdo$/
 
     # Usage: merge_db_schema %O %A %B
     # @param argv [Array<String>]
     # @return [Integer] status code
     def main(argv)
-      original = argv[0]
-      current = argv[1]
-      other = argv[2]
+      original = Pathname(argv[0])
+      current = Pathname(argv[1])
+      other = Pathname(argv[2])
 
-      diffed = `git merge-file -pq #{current} #{original} #{other}`
-      return 1 if diffed.scan(RE_EQ).size != 1
-      match = diffed.match(RE_VERSION)
-      return 1 unless match
+      current_text = current.read
+      other_text   = other.read
 
-      version1 = match[1].to_i
-      version2 = match[2].to_i
+      version1 = current_text[RE_DEFINE, 1].to_i
+      version2 = other_text[RE_DEFINE, 1].to_i
       version = [version1, version2].max
 
-      current_text = Pathname(current).read
-      current_text[RE_DEFINE, 1] = version.to_s
-      Pathname(current).write(current_text)
-      return 0
+      update_version(current, version)
+      update_version(other, version)
+      update_version(original, version)
+
+      `git merge-file -q #{current} #{original} #{other}`
+      return $?.exitstatus
     end
 
     def init(argv)
@@ -71,5 +62,10 @@ module MergeDbSchema
 
     private
 
+    def update_version(path, version)
+      text = path.read
+      text[RE_DEFINE, 1] = version.to_s
+      path.write(text)
+    end
   end
 end
