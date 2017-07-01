@@ -1,5 +1,7 @@
 # MergeDBSchema
 
+[![Build Status](https://travis-ci.org/pocke/merge_db_schema.svg?branch=master)](https://travis-ci.org/pocke/merge_db_schema)
+
 It is a git merge driver for `db/schema.rb` of Ruby on Rails.
 By this gem, we can resolve some of the conflict automatically.
 
