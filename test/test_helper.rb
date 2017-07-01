@@ -9,7 +9,9 @@ require 'merge_db_schema'
 
 def mktmpdir(&block)
   Dir.mktmpdir do |dir|
-    yield Pathname(dir)
+    Dir.chdir(dir) do
+      yield Pathname(dir)
+    end
   end
 end
 
