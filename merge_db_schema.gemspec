@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Masataka Kuwabara"]
   spec.email         = ["kuwabara@pocke.me"]
 
-  spec.summary       = %q{}
-  spec.description   = %q{}
+  spec.summary       = %q{It is a git merge driver for db/schema.rb of Ruby on Rails. It resolves some of the conflict automatically.}
+  spec.description   = %q{It is a git merge driver for db/schema.rb of Ruby on Rails. It resolves some of the conflict automatically.}
   spec.homepage      = "https://github.com/pocke/merge_db_schema"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|

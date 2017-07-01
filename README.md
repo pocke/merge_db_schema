@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/pocke/merge_db_schema.svg?branch=master)](https://travis-ci.org/pocke/merge_db_schema)
 
 It is a git merge driver for `db/schema.rb` of Ruby on Rails.
-By this gem, we can resolve some of the conflict automatically.
+It resolves some of the conflict automatically.
 
 ![out](https://user-images.githubusercontent.com/4361134/27761416-665a6ee8-5e96-11e7-852d-5eddc9c2a6b8.gif)
 
