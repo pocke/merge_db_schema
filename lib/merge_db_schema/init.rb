@@ -1,13 +1,20 @@
 module MergeDBSchema
   module Init
+    class NotGitDirectoryError < StandardError; end
+
     class << self
       def init(argv)
         force = argv[0] == '--force'
+        check_git_dir!
         init_gitattribute
         init_gitconfig(force)
       end
 
       private
+
+      def check_git_dir!
+        raise NotGitDirectoryError, 'Current directory is not managed by git!' unless Pathname('.git').exist?
+      end
 
       def init_gitattribute
         print 'Initializing .gitattributes ... '
