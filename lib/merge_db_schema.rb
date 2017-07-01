@@ -32,35 +32,55 @@ module MergeDBSchema
     def init(argv)
       force = argv[0] == '--force'
 
-      gitattributes = "db/schema.rb merge=merge_db_schema\n"
-      gitconfig = <<~END
+
+      init_gitattribute
+      init_gitconfig(force)
+    end
+
+    private
+
+    def init_gitattribute
+      print 'Initializing .gitattributes ... '
+      gitattributes_content = "db/schema.rb merge=merge_db_schema\n"
+      gitattr = Pathname('.gitattributes')
+      if gitattr.exist? && gitattr.read.include?(gitattributes_content)
+        puts Rainbow('skip').orange
+      else
+        gitattr.open('a') do |f|
+          f.write(gitattributes_content)
+        end
+        puts Rainbow('done!').green
+      end
+    end
+
+    def init_gitconfig(force)
+      gitconfig_content = <<~END
         [merge "merge_db_schema"]
         \tname = Merge db/schema.rb
         \tdriver = merge_db_schema %O %A %B
         \trecursive = text
       END
 
-      print 'Initializing .gitattributes ... '
-      File.open('.gitattributes', 'a') do |f|
-        f.write(gitattributes)
-      end
-      puts Rainbow('done!').green
-
-      if force
-        print 'Initializing .git/config ... '
-        File.open('.git/config', 'a') do |f|
-          f.write(gitconfig)
-        end
-        puts Rainbow('done!').green
-        puts Rainbow('Successfully initialized!')
-      else
+      unless force
         puts 'Add the following code into .git/config, initializing is completed!'
         puts
-        puts gitconfig
+        puts gitconfig_content
+        return
       end
-    end
 
-    private
+      gitconfig = Pathname('.git/config')
+      print 'Initializing .git/config ... '
+      if gitconfig.exist? && gitconfig.read.include?(gitconfig_content)
+        puts Rainbow('skip').orange
+      else
+        gitconfig.open('a') do |f|
+          f.write(gitconfig_content)
+        end
+        puts Rainbow('done!').green
+      end
+
+      puts Rainbow('Successfully initialized!')
+    end
 
     def update_version(path, version)
       text = path.read
