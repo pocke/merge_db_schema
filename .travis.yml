@@ -1,8 +1,9 @@
-sudo: false
 cache: bundler
 rvm:
-  - 2.3.4
-  - 2.4.1
+  - 2.4.9
+  - 2.5.7
+  - 2.6.5
+  - 2.7.0
   - ruby-head
 branches:
   only:
