@@ -12,6 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{It is a git merge driver for db/schema.rb of Ruby on Rails. It resolves some of the conflict automatically.}
   spec.description   = %q{It is a git merge driver for db/schema.rb of Ruby on Rails. It resolves some of the conflict automatically.}
   spec.homepage      = "https://github.com/pocke/merge_db_schema"
+  spec.license       = 'Apache-2.0'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
@@ -25,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rainbow"
 
   spec.add_development_dependency "pry"
-  spec.add_development_dependency "bundler", "~> 1.15"
+  spec.add_development_dependency "bundler", "< 3"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "minitest", "~> 5.10"
 end
