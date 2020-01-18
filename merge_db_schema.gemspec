@@ -12,6 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{It is a git merge driver for db/schema.rb of Ruby on Rails. It resolves some of the conflict automatically.}
   spec.description   = %q{It is a git merge driver for db/schema.rb of Ruby on Rails. It resolves some of the conflict automatically.}
   spec.homepage      = "https://github.com/pocke/merge_db_schema"
+  spec.license       = 'Apache-2.0'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
