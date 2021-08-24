@@ -1,6 +1,6 @@
 module MergeDBSchema
   module Main
-    RE_DEFINE = /^ActiveRecord::Schema.define\(version:\s(\d+)\)\sdo$/
+    RE_DEFINE = /^ActiveRecord::Schema.define\(version:\s([\d,_]+)\)\sdo$/
 
     class << self
       # Usage: merge_db_schema %O %A %B
