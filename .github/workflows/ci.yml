@@ -24,4 +24,8 @@ jobs:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - run: bin/setup
+    - name: setup git commit
+      run: |
+        git config --global user.email 'test@example.com'
+        git config --global user.name 'Ayano Sugiura'
     - run: bundle exec rake
