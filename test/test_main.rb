@@ -75,7 +75,7 @@ class TestMain < Minitest::Test
     assert current.read != current_original.read
     assert_equal current.read, expected.read
 
-    assert_match(/version: 20170628094212/, current.read)
+    assert_match(/version: 2017_06_28_094212/, current.read)
     refute current.read.match(/\={7,}/)
     refute current.read.match(/\<{7,}/)
     refute current.read.match(/\>{7,}/)
@@ -87,7 +87,7 @@ class TestMain < Minitest::Test
   def assert_conflict(current, current_original, expected)
     assert current.read != current_original.read
 
-    assert_match(/version: 20170701093311/, current.read)
+    assert_match(/version: 2017_07_01_093311/, current.read)
     assert current.read.match(/\={7,}/)
     assert current.read.match(/\<{7,}/)
     assert current.read.match(/\>{7,}/)

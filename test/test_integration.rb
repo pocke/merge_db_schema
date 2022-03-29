@@ -80,13 +80,13 @@ class TestMain < Minitest::Test
       sh! 'git', 'branch', 'change2-original'
       ex = assert_raises{sh! 'git', 'merge', '--no-edit', 'change1'}
       assert ex.is_a?(CommandExecutionError)
-      assert_match(/version: 20170701093311/, db_schema.read)
+      assert_match(/version: 2017_07_01_093311/, db_schema.read)
       sh! 'git', 'merge', '--abort'
 
       sh! 'git', 'checkout', 'change1'
       ex = assert_raises{sh! 'git', 'merge', '--no-edit', 'change2-original'}
       assert ex.is_a?(CommandExecutionError)
-      assert_match(/version: 20170701093311/, db_schema.read)
+      assert_match(/version: 2017_07_01_093311/, db_schema.read)
     end
   ensure
     ENV['PATH'] = original_path
