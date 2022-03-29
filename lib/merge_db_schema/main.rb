@@ -30,9 +30,16 @@ module MergeDBSchema
 
       def update_version(path, version)
         text = path.read
-        text[RE_DEFINE, 1] = version.to_s
+        text[RE_DEFINE, 1] = formatted_version(version)
         path.write(text)
       end
+
+      def formatted_version(version)
+        stringified = version.to_s
+        return stringified unless stringified.length == 14
+        stringified.insert(4, "_").insert(7, "_").insert(10, "_")
+      end
+
     end
   end
 end
